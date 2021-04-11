@@ -4,3 +4,4 @@ shared-local-instance.db
 .env
 .aws-sam
 keys/
+template.yml
