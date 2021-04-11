@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Example Lambda Gin
+# Globals:
+  # set of globals
+
+Resources:
+  SampleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      CodeUri: . 
+      Runtime: go1.x
+      MemorySize: 128
+      Environment:
+        Variables:
+          LOCAL_PRIVATE_KEY: TEST_PRIVATE_KEY
+          DATABASE_LOCAL_URL: http://localhost:8000
+          DATABASE_TABLE: FlyOnlineDB
+          GOOGLE_APPLICATION_CREDENTIALS : taslapp-62939-firebase-admin.json
+          FIREBASE_KEY: AIzaSyD6sRmsYMrPCuJZot9Hjm3drteWqQ5JLm0
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:Scan
+                - dynamodb:PutItem
+                - dynamodb:GetItem
+                - dynamodb:Query
+                - dynamodb:GetRecords
+                - dynamodb:UpdateItem
+              Resource: "arn:aws:dynamodb:*:*:table/*"
+      Timeout: 3
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: any

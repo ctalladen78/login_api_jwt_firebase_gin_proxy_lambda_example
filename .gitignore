@@ -1,0 +1,6 @@
+vendor/
+bin/
+shared-local-instance.db
+.env
+.aws-sam
+keys/
